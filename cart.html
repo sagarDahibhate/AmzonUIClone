@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Amazon Cart</title>
+    <!-- Add Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -172,70 +174,32 @@
             <span class="close">&times;</span>
             <h2>Choose Payment Method</h2>
             <div class="payment-options">
-                <div class="payment-option" onclick="showPaymentForm('upi')">
+                <div class="payment-option" onclick="initiateRazorpayPayment('upi')">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/1200px-UPI-Logo-vector.svg.png" alt="UPI">
                     <p>UPI</p>
                 </div>
-                <div class="payment-option" onclick="showPaymentForm('phonepe')">
+                <div class="payment-option" onclick="initiateRazorpayPayment('netbanking')">
                     <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe">
-                    <p>PhonePe</p>
+                    <p>Net Banking</p>
                 </div>
-                <div class="payment-option" onclick="showPaymentForm('paytm')">
+                <div class="payment-option" onclick="initiateRazorpayPayment('wallet')">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/2560px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm">
-                    <p>Paytm</p>
+                    <p>Wallet</p>
                 </div>
-                <div class="payment-option" onclick="showPaymentForm('credit-card')">
+                <div class="payment-option" onclick="initiateRazorpayPayment('card')">
                     <img src="https://www.freepnglogos.com/uploads/mastercard-png/mastercard-logo-logok-15.png" alt="Credit Card">
-                    <p>Credit Card</p>
+                    <p>Credit/Debit Card</p>
                 </div>
-                <div class="payment-option" onclick="showPaymentForm('emi')">
+                <div class="payment-option" onclick="initiateRazorpayPayment('emi')">
                     <img src="https://cdn-icons-png.flaticon.com/512/2331/2331941.png" alt="EMI">
                     <p>EMI</p>
                 </div>
-                <div class="payment-option" onclick="showPaymentForm('cred')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/CRED_Logo.svg/2560px-CRED_Logo.svg.png" alt="CRED">
-                    <p>CRED</p>
-                </div>
-            </div>
-            <div id="upiForm" class="payment-form">
-                <input type="text" placeholder="Enter UPI ID">
-                <button onclick="processPayment('upi')">Pay with UPI</button>
-            </div>
-            <div id="phonepeForm" class="payment-form">
-                <input type="text" placeholder="Enter PhonePe Number">
-                <button onclick="processPayment('phonepe')">Pay with PhonePe</button>
-            </div>
-            <div id="paytmForm" class="payment-form">
-                <input type="text" placeholder="Enter Paytm Number">
-                <button onclick="processPayment('paytm')">Pay with Paytm</button>
-            </div>
-            <div id="creditCardForm" class="payment-form">
-                <input type="text" placeholder="Card Number">
-                <input type="text" placeholder="Name on Card">
-                <input type="text" placeholder="Expiry Date">
-                <input type="text" placeholder="CVV">
-                <button onclick="processPayment('credit-card')">Pay with Credit Card</button>
-            </div>
-            <div id="emiForm" class="payment-form">
-                <input type="text" placeholder="Card Number">
-                <input type="text" placeholder="Name on Card">
-                <input type="text" placeholder="Expiry Date">
-                <input type="text" placeholder="CVV">
-                <select>
-                    <option>3 months</option>
-                    <option>6 months</option>
-                    <option>12 months</option>
-                </select>
-                <button onclick="processPayment('emi')">Pay with EMI</button>
-            </div>
-            <div id="credForm" class="payment-form">
-                <input type="text" placeholder="CRED Username">
-                <input type="password" placeholder="CRED Password">
-                <button onclick="processPayment('cred')">Pay with CRED</button>
             </div>
         </div>
     </div>
     <script>
+        let totalAmount = 0;
+
         function displayCart() {
             const cartContainer = document.getElementById('cartContainer');
             const emptyCartMessage = document.getElementById('emptyCartMessage');
@@ -247,7 +211,7 @@
             }
             
             emptyCartMessage.style.display = 'none';
-            let totalPrice = 0;
+            totalAmount = 0;
             
             cart.forEach((item, index) => {
                 const cartItem = document.createElement('div');
@@ -261,12 +225,12 @@
                     </div>
                 `;
                 cartContainer.appendChild(cartItem);
-                totalPrice += item.price;
+                totalAmount += item.price;
             });
             
             const totalElement = document.createElement('div');
             totalElement.className = 'total';
-            totalElement.innerHTML = `<p>Total: ₹${totalPrice.toFixed(2)}</p>`;
+            totalElement.innerHTML = `<p>Total: ₹${totalAmount.toFixed(2)}</p>`;
             cartContainer.appendChild(totalElement);
             
             const checkoutButton = document.createElement('button');
@@ -292,22 +256,44 @@
             const modal = document.getElementById('paymentModal');
             modal.style.display = 'none';
         }
-        
-        function showPaymentForm(method) {
-            const forms = document.querySelectorAll('.payment-form');
-            forms.forEach(form => form.style.display = 'none');
-            document.getElementById(`${method}Form`).style.display = 'block';
-        }
-        
-        function processPayment(method) {
-            // Here you would typically integrate with a real payment gateway
-            // For this example, we'll just simulate a successful payment
-            alert(`Processing payment with ${method}...`);
-            setTimeout(() => {
-                alert('Payment successful!');
-                localStorage.removeItem('cart');
-                location.href = 'index.html';
-            }, 2000);
+
+        function initiateRazorpayPayment(paymentMethod) {
+            const options = {
+                key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
+                amount: totalAmount * 100, // Amount in paise
+                currency: 'INR',
+                name: 'Your Store Name',
+                description: 'Purchase Payment',
+                image: 'your_logo_url',
+                prefill: {
+                    name: '',
+                    email: '',
+                    contact: ''
+                },
+                notes: {
+                    address: 'Customer Address'
+                },
+                theme: {
+                    color: '#F37254'
+                },
+                method: {
+                    netbanking: true,
+                    card: true,
+                    wallet: true,
+                    upi: true,
+                    emi: true
+                },
+                handler: function(response) {
+                    // Handle successful payment
+                    console.log(response);
+                    alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+                    localStorage.removeItem('cart');
+                    window.location.href = 'index.html';
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
         }
         
         window.onload = function() {
