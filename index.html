@@ -92,6 +92,7 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
         }
         .product-card img {
             max-width: 100%;
@@ -119,6 +120,25 @@
             margin-top: 10px;
             cursor: pointer;
             border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .cart-count {
+            background-color: #ff0000;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            position: relative;
+            top: -10px;
+            left: -5px;
+        }
+        .product-count {
+            color: #111111;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -132,7 +152,7 @@
             </div>
             <div style="margin-left: 20px;">
                 <a href="#" style="color: white; text-decoration: none; margin-right: 15px;">Hello, Sign in</a>
-                <a href="cart.html" style="color: white; text-decoration: none;">🛒 Cart</a>
+                <a href="cart.html" style="color: white; text-decoration: none;">🛒<span id="cart-count" class="cart-count">0</span></a>
             </div>
         </div>
     </header>
@@ -162,49 +182,49 @@
                 <img src="https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg" alt="OnePlus Nord CE 3 Lite 5G">
                 <h3>OnePlus Nord CE 3 Lite 5G</h3>
                 <p class="price">₹19,999</p>
-                <button class="add-to-cart" onclick="addToCart('OnePlus Nord CE 3 Lite 5G', 19999, 'https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('OnePlus Nord CE 3 Lite 5G', 19999, 'https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg', 'count-1')">Add to Cart <span class="product-count" id="count-1">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY218_.jpg" alt="boAt Airdopes 141">
                 <h3>boAt Airdopes 141 Bluetooth TWS Earbuds</h3>
                 <p class="price">₹1,299</p>
-                <button class="add-to-cart" onclick="addToCart('boAt Airdopes 141 Bluetooth TWS Earbuds', 1299, 'https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('boAt Airdopes 141 Bluetooth TWS Earbuds', 1299, 'https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY218_.jpg', 'count-2')">Add to Cart <span class="product-count" id="count-2">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61bX2AoGj2L._AC_UY218_.jpg" alt="Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV">
                 <h3>Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV</h3>
                 <p class="price">₹12,999</p>
-                <button class="add-to-cart" onclick="addToCart('Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV', 12999, 'https://m.media-amazon.com/images/I/61bX2AoGj2L._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV', 12999, 'https://m.media-amazon.com/images/I/61bX2AoGj2L._AC_UY218_.jpg', 'count-3')">Add to Cart <span class="product-count" id="count-3">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/51o43hzrPHL._AC_UL320_.jpg" alt="Fastrack Limitless FS1 Smart Watch">
                 <h3>Fastrack Limitless FS1 Smart Watch</h3>
                 <p class="price">₹1,695</p>
-                <button class="add-to-cart" onclick="addToCart('Fastrack Limitless FS1 Smart Watch', 1695, 'https://m.media-amazon.com/images/I/51o43hzrPHL._AC_UL320_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('Fastrack Limitless FS1 Smart Watch', 1695, 'https://m.media-amazon.com/images/I/51o43hzrPHL._AC_UL320_.jpg', 'count-4')">Add to Cart <span class="product-count" id="count-4">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UY218_.jpg" alt="Apple iPhone 14 Pro">
                 <h3>Apple iPhone 14 Pro (128 GB) - Deep Purple</h3>
                 <p class="price">₹119,999</p>
-                <button class="add-to-cart" onclick="addToCart('Apple iPhone 14 Pro (128 GB) - Deep Purple', 119999, 'https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('Apple iPhone 14 Pro (128 GB) - Deep Purple', 119999, 'https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UY218_.jpg', 'count-5')">Add to Cart <span class="product-count" id="count-5">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61MPGbBNPNL._AC_UY218_.jpg" alt="Sony WH-1000XM4">
                 <h3>Sony WH-1000XM4 Wireless Noise Cancelling Headphones</h3>
                 <p class="price">₹24,990</p>
-                <button class="add-to-cart" onclick="addToCart('Sony WH-1000XM4 Wireless Noise Cancelling Headphones', 24990, 'https://m.media-amazon.com/images/I/61MPGbBNPNL._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('Sony WH-1000XM4 Wireless Noise Cancelling Headphones', 24990, 'https://m.media-amazon.com/images/I/61MPGbBNPNL._AC_UY218_.jpg', 'count-6')">Add to Cart <span class="product-count" id="count-6">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61LNnZPoKPS._AC_UY218_.jpg" alt="Samsung Galaxy Tab S7 FE">
                 <h3>Samsung Galaxy Tab S7 FE 31.5 cm (12.4 inch) Large Display</h3>
                 <p class="price">₹39,999</p>
-                <button class="add-to-cart" onclick="addToCart('Samsung Galaxy Tab S7 FE 31.5 cm (12.4 inch) Large Display', 39999, 'https://m.media-amazon.com/images/I/61LNnZPoKPS._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('Samsung Galaxy Tab S7 FE 31.5 cm (12.4 inch) Large Display', 39999, 'https://m.media-amazon.com/images/I/61LNnZPoKPS._AC_UY218_.jpg', 'count-7')">Add to Cart <span class="product-count" id="count-7">0</span></button>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61RZDb2mQxL._AC_UY218_.jpg" alt="Kindle Paperwhite">
                 <h3>Kindle Paperwhite (8 GB) – Now with a 6.8" display</h3>
                 <p class="price">₹13,999</p>
-                <button class="add-to-cart" onclick="addToCart('Kindle Paperwhite (8 GB) – Now with a 6.8" display', 13999, 'https://m.media-amazon.com/images/I/61RZDb2mQxL._AC_UY218_.jpg')">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart('Kindle Paperwhite (8 GB) – Now with a 6.8" display', 13999, 'https://m.media-amazon.com/images/I/61RZDb2mQxL._AC_UY218_.jpg', 'count-8')">Add to Cart <span class="product-count" id="count-8">0</span></button>
             </div>
         </div>
     </div>
@@ -212,11 +232,39 @@
         <p>© 1996-2023, Amazon.com, Inc. or its affiliates</p>
     </div>
     <script>
-        function addToCart(name, price, image) {
+        // Initialize cart count and product counts on page load
+        window.onload = function() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('cart-count').textContent = cart.length;
+            
+            // Initialize product counts
+            const productCounts = {};
+            cart.forEach(item => {
+                productCounts[item.name] = (productCounts[item.name] || 0) + 1;
+            });
+            
+            // Update product count displays
+            for(let i = 1; i <= 8; i++) {
+                const countElement = document.getElementById(`count-${i}`);
+                const productName = countElement.parentElement.parentElement.querySelector('h3').textContent;
+                if(productCounts[productName]) {
+                    countElement.textContent = productCounts[productName];
+                }
+            }
+        }
+
+        function addToCart(name, price, image, countId) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             cart.push({name, price, image});
             localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Item added to cart!');
+            
+            // Update main cart count
+            document.getElementById('cart-count').textContent = cart.length;
+            
+            // Update product count
+            const countElement = document.getElementById(countId);
+            const currentCount = parseInt(countElement.textContent) || 0;
+            countElement.textContent = currentCount + 1;
         }
     </script>
 </body>
