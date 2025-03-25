@@ -15,6 +15,7 @@
             background-color: #131921;
             color: white;
             padding: 10px 0;
+            width: 100%;
         }
         .header-content {
             display: flex;
@@ -22,30 +23,37 @@
             max-width: 1500px;
             margin: 0 auto;
             padding: 0 10px;
+            flex-wrap: wrap;
         }
         .logo {
             width: 100px;
             margin-right: 20px;
         }
         .search-bar {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
+            min-width: 280px;
+            margin: 10px 0;
         }
         .search-bar input {
-            flex-grow: 1;
+            flex: 1;
             padding: 10px;
             font-size: 16px;
             border: none;
+            border-radius: 4px 0 0 4px;
         }
         .search-bar button {
             background-color: #febd69;
             border: none;
             padding: 10px 15px;
             cursor: pointer;
+            border-radius: 0 4px 4px 0;
         }
         nav {
             background-color: #232f3e;
             padding: 5px 0;
+            width: 100%;
+            overflow-x: auto;
         }
         nav ul {
             list-style-type: none;
@@ -54,13 +62,16 @@
             display: flex;
             max-width: 1500px;
             margin: 0 auto;
+            white-space: nowrap;
         }
         nav ul li {
             margin-right: 20px;
+            padding: 8px 0;
         }
         nav ul li a {
             color: white;
             text-decoration: none;
+            font-size: 14px;
         }
         .container {
             max-width: 1500px;
@@ -71,21 +82,25 @@
             background-image: url('https://images-eu.ssl-images-amazon.com/images/G/31/img23/Fashion/GW/MFD/Aug/Event/PC-3000._CB598669664_.jpg');
             background-size: cover;
             background-position: center;
-            height: 300px;
+            height: 200px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
             margin-bottom: 20px;
+            border-radius: 8px;
         }
         .hero-content {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
             text-align: center;
+            width: 100%;
+            border-radius: 0 0 8px 8px;
         }
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            padding: 10px;
         }
         .product-card {
             background-color: white;
@@ -93,25 +108,34 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
         .product-card img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
+            object-fit: contain;
+            aspect-ratio: 1;
         }
         .product-card h3 {
             margin: 10px 0;
-            font-size: 16px;
+            font-size: 14px;
+            line-height: 1.4;
+            flex-grow: 1;
         }
         .product-card .price {
             color: #B12704;
             font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
         }
         .footer {
             background-color: #232f3e;
             color: white;
             text-align: center;
-            padding: 20px 0;
+            padding: 20px 10px;
             margin-top: 40px;
+            width: 100%;
         }
         .add-to-cart {
             background-color: #f0c14b;
@@ -122,8 +146,10 @@
             border-radius: 3px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 5px;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .cart-count {
             background-color: #ff0000;
@@ -139,6 +165,73 @@
         .product-count {
             color: #111111;
             font-weight: bold;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quantity-btn {
+            background: none;
+            border: 1px solid #a88734;
+            width: 25px;
+            height: 25px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                justify-content: center;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .search-bar {
+                order: 3;
+                width: 100%;
+            }
+            .hero-section {
+                height: 150px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .product-card h3 {
+                font-size: 13px;
+            }
+            nav ul {
+                padding: 0 10px;
+            }
+            nav ul li {
+                margin-right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section {
+                height: 120px;
+            }
+            .hero-content h2 {
+                font-size: 18px;
+            }
+            .hero-content p {
+                font-size: 14px;
+            }
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            .add-to-cart {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .quantity-controls {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -182,49 +275,105 @@
                 <img src="https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg" alt="OnePlus Nord CE 3 Lite 5G">
                 <h3>OnePlus Nord CE 3 Lite 5G</h3>
                 <p class="price">₹19,999</p>
-                <button class="add-to-cart" onclick="addToCart('OnePlus Nord CE 3 Lite 5G', 19999, 'https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg', 'count-1')">Add to Cart <span class="product-count" id="count-1">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-1')">-</button>
+                        <span class="product-count" id="count-1">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('OnePlus Nord CE 3 Lite 5G', 19999, 'https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg', 'count-1')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY218_.jpg" alt="boAt Airdopes 141">
                 <h3>boAt Airdopes 141 Bluetooth TWS Earbuds</h3>
                 <p class="price">₹1,299</p>
-                <button class="add-to-cart" onclick="addToCart('boAt Airdopes 141 Bluetooth TWS Earbuds', 1299, 'https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY218_.jpg', 'count-2')">Add to Cart <span class="product-count" id="count-2">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-2')">-</button>
+                        <span class="product-count" id="count-2">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('boAt Airdopes 141 Bluetooth TWS Earbuds', 1299, 'https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY218_.jpg', 'count-2')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61bX2AoGj2L._AC_UY218_.jpg" alt="Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV">
                 <h3>Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV</h3>
                 <p class="price">₹12,999</p>
-                <button class="add-to-cart" onclick="addToCart('Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV', 12999, 'https://m.media-amazon.com/images/I/61bX2AoGj2L._AC_UY218_.jpg', 'count-3')">Add to Cart <span class="product-count" id="count-3">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-3')">-</button>
+                        <span class="product-count" id="count-3">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('Redmi 80 cm (32 inches) HD Ready Smart LED Fire TV', 12999, 'https://m.media-amazon.com/images/I/61bX2AoGj2L._AC_UY218_.jpg', 'count-3')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/51o43hzrPHL._AC_UL320_.jpg" alt="Fastrack Limitless FS1 Smart Watch">
                 <h3>Fastrack Limitless FS1 Smart Watch</h3>
                 <p class="price">₹1,695</p>
-                <button class="add-to-cart" onclick="addToCart('Fastrack Limitless FS1 Smart Watch', 1695, 'https://m.media-amazon.com/images/I/51o43hzrPHL._AC_UL320_.jpg', 'count-4')">Add to Cart <span class="product-count" id="count-4">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-4')">-</button>
+                        <span class="product-count" id="count-4">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('Fastrack Limitless FS1 Smart Watch', 1695, 'https://m.media-amazon.com/images/I/51o43hzrPHL._AC_UL320_.jpg', 'count-4')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UY218_.jpg" alt="Apple iPhone 14 Pro">
                 <h3>Apple iPhone 14 Pro (128 GB) - Deep Purple</h3>
                 <p class="price">₹119,999</p>
-                <button class="add-to-cart" onclick="addToCart('Apple iPhone 14 Pro (128 GB) - Deep Purple', 119999, 'https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UY218_.jpg', 'count-5')">Add to Cart <span class="product-count" id="count-5">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-5')">-</button>
+                        <span class="product-count" id="count-5">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('Apple iPhone 14 Pro (128 GB) - Deep Purple', 119999, 'https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UY218_.jpg', 'count-5')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61MPGbBNPNL._AC_UY218_.jpg" alt="Sony WH-1000XM4">
                 <h3>Sony WH-1000XM4 Wireless Noise Cancelling Headphones</h3>
                 <p class="price">₹24,990</p>
-                <button class="add-to-cart" onclick="addToCart('Sony WH-1000XM4 Wireless Noise Cancelling Headphones', 24990, 'https://m.media-amazon.com/images/I/61MPGbBNPNL._AC_UY218_.jpg', 'count-6')">Add to Cart <span class="product-count" id="count-6">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-6')">-</button>
+                        <span class="product-count" id="count-6">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('Sony WH-1000XM4 Wireless Noise Cancelling Headphones', 24990, 'https://m.media-amazon.com/images/I/61MPGbBNPNL._AC_UY218_.jpg', 'count-6')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61LNnZPoKPS._AC_UY218_.jpg" alt="Samsung Galaxy Tab S7 FE">
                 <h3>Samsung Galaxy Tab S7 FE 31.5 cm (12.4 inch) Large Display</h3>
                 <p class="price">₹39,999</p>
-                <button class="add-to-cart" onclick="addToCart('Samsung Galaxy Tab S7 FE 31.5 cm (12.4 inch) Large Display', 39999, 'https://m.media-amazon.com/images/I/61LNnZPoKPS._AC_UY218_.jpg', 'count-7')">Add to Cart <span class="product-count" id="count-7">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-7')">-</button>
+                        <span class="product-count" id="count-7">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('Samsung Galaxy Tab S7 FE 31.5 cm (12.4 inch) Large Display', 39999, 'https://m.media-amazon.com/images/I/61LNnZPoKPS._AC_UY218_.jpg', 'count-7')">+</button>
+                    </div>
+                </div>
             </div>
             <div class="product-card">
                 <img src="https://m.media-amazon.com/images/I/61RZDb2mQxL._AC_UY218_.jpg" alt="Kindle Paperwhite">
                 <h3>Kindle Paperwhite (8 GB) – Now with a 6.8" display</h3>
                 <p class="price">₹13,999</p>
-                <button class="add-to-cart" onclick="addToCart('Kindle Paperwhite (8 GB) – Now with a 6.8" display', 13999, 'https://m.media-amazon.com/images/I/61RZDb2mQxL._AC_UY218_.jpg', 'count-8')">Add to Cart <span class="product-count" id="count-8">0</span></button>
+                <div class="add-to-cart">
+                    <span>Add to Cart</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('count-8')">-</button>
+                        <span class="product-count" id="count-8">0</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('Kindle Paperwhite (8 GB) – Now with a 6.8" display', 13999, 'https://m.media-amazon.com/images/I/61RZDb2mQxL._AC_UY218_.jpg', 'count-8')">+</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -232,28 +381,18 @@
         <p>© 1996-2023, Amazon.com, Inc. or its affiliates</p>
     </div>
     <script>
-        // Initialize cart count and product counts on page load
+        // Initialize empty cart on page load
         window.onload = function() {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            document.getElementById('cart-count').textContent = cart.length;
+            localStorage.removeItem('cart'); // Clear any existing cart
+            document.getElementById('cart-count').textContent = '0';
             
-            // Initialize product counts
-            const productCounts = {};
-            cart.forEach(item => {
-                productCounts[item.name] = (productCounts[item.name] || 0) + 1;
-            });
-            
-            // Update product count displays
+            // Reset all product counts to 0
             for(let i = 1; i <= 8; i++) {
-                const countElement = document.getElementById(`count-${i}`);
-                const productName = countElement.parentElement.parentElement.querySelector('h3').textContent;
-                if(productCounts[productName]) {
-                    countElement.textContent = productCounts[productName];
-                }
+                document.getElementById(`count-${i}`).textContent = '0';
             }
         }
 
-        function addToCart(name, price, image, countId) {
+        function increaseQuantity(name, price, image, countId) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             cart.push({name, price, image});
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -265,6 +404,29 @@
             const countElement = document.getElementById(countId);
             const currentCount = parseInt(countElement.textContent) || 0;
             countElement.textContent = currentCount + 1;
+        }
+
+        function decreaseQuantity(countId) {
+            const countElement = document.getElementById(countId);
+            const currentCount = parseInt(countElement.textContent) || 0;
+            
+            if(currentCount > 0) {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const productName = countElement.closest('.product-card').querySelector('h3').textContent;
+                
+                // Find and remove one instance of the product
+                const index = cart.findIndex(item => item.name === productName);
+                if(index !== -1) {
+                    cart.splice(index, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Update main cart count
+                    document.getElementById('cart-count').textContent = cart.length;
+                    
+                    // Update product count
+                    countElement.textContent = currentCount - 1;
+                }
+            }
         }
     </script>
 </body>
