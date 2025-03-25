@@ -153,6 +153,29 @@
             cursor: pointer;
             border-radius: 4px;
         }
+        .upi-qr-modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .upi-qr-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .upi-qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
     </style>
 </head>
 <body>
@@ -174,7 +197,7 @@
             <span class="close">&times;</span>
             <h2>Choose Payment Method</h2>
             <div class="payment-options">
-                <div class="payment-option" onclick="initiateRazorpayPayment('upi')">
+                <div class="payment-option" onclick="showUPIQRCode()">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/1200px-UPI-Logo-vector.svg.png" alt="UPI">
                     <p>UPI</p>
                 </div>
@@ -197,6 +220,21 @@
             </div>
         </div>
     </div>
+    
+    <!-- Add UPI QR Code Modal -->
+    <div id="upiQRModal" class="upi-qr-modal">
+        <div class="upi-qr-content">
+            <span class="close" onclick="closeUPIQRModal()">&times;</span>
+            <h3>Scan QR Code to Pay</h3>
+            <div class="upi-qr-code">
+                <!-- Replace with actual QR code generation -->
+                <img id="qrCodeImage" src="" alt="UPI QR Code">
+            </div>
+            <p>Amount: ₹<span id="qrAmount">0</span></p>
+            <button onclick="verifyUPIPayment()">I have completed the payment</button>
+        </div>
+    </div>
+
     <script>
         let totalAmount = 0;
 
@@ -257,6 +295,30 @@
             modal.style.display = 'none';
         }
 
+        function showUPIQRCode() {
+            // Close payment modal
+            closePaymentModal();
+            
+            // Generate QR code with specified UPI ID
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=7415138836@ybl&pn=Store_Payment&am=${totalAmount}&cu=INR`;
+            document.getElementById('qrCodeImage').src = qrCodeUrl;
+            document.getElementById('qrAmount').textContent = totalAmount.toFixed(2);
+            
+            // Show UPI QR modal
+            document.getElementById('upiQRModal').style.display = 'block';
+        }
+
+        function closeUPIQRModal() {
+            document.getElementById('upiQRModal').style.display = 'none';
+        }
+
+        function verifyUPIPayment() {
+            // Here you would typically verify the payment with your backend
+            alert('Payment successful!');
+            localStorage.removeItem('cart');
+            window.location.href = 'index.html';
+        }
+
         function initiateRazorpayPayment(paymentMethod) {
             const options = {
                 key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
@@ -304,8 +366,12 @@
             
             window.onclick = function(event) {
                 const modal = document.getElementById('paymentModal');
+                const upiModal = document.getElementById('upiQRModal');
                 if (event.target == modal) {
                     modal.style.display = 'none';
+                }
+                if (event.target == upiModal) {
+                    upiModal.style.display = 'none';
                 }
             }
         }
